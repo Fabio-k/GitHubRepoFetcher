@@ -1,0 +1,12 @@
+.repositoryHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.repositoryCard {
+  width: 40vw;
+  padding: 10px;
+  border: 2px solid rgb(242, 242, 242);
+  border-radius: 10px;
+}

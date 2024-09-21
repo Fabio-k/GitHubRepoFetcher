@@ -1,0 +1,20 @@
+<h1>My Github repositories</h1>
+<% if @response[0].is_a?(Hash) && @response[0][:error]%>
+    <div>
+        <p>Github error message: <%= @response.first[:error]%></p>
+    </div>
+<% else%>
+    <% @response.each do |repo|%>
+        <div class="repositoryCard">
+            <div class="repositoryHeader">
+                <h1> <%= repo.name%></h1>
+                <p> Forks: <%= repo.forks_count %> Stars:<%= repo.stars_count%></p>
+            </div>
+            <p> Description: <%= repo.description%></p>
+            <% if repo.commits.any? %>
+                <p><%= repo.commits.first.message%></p>
+                <p><%= repo.commits.first.author%></p>
+            <% end %>
+        </div>
+    <% end %>
+<% end %>
