@@ -1,7 +1,9 @@
 class HomepageController < ApplicationController
   def index
-    @response = GithubApi.fetch_repositories
-    puts @response.is_a?(Array)
-    puts @response
+    @response = GithubApi.get_all_repositories
+  end
+
+  def show
+    @repository = GithubApi.get_repository(params[:name])
   end
 end

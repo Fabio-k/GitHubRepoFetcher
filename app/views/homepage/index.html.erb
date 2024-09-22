@@ -5,16 +5,14 @@
     </div>
 <% else%>
     <% @response.each do |repo|%>
-        <div class="repositoryCard">
-            <div class="repositoryHeader">
-                <h1> <%= repo.name%></h1>
-                <p> Forks: <%= repo.forks_count %> Stars:<%= repo.stars_count%></p>
+        <a href="<%=repository_path(repo.name)%>" data-turbo="false">
+            <div class="repositoryCard">
+                <div class="repositoryHeader">
+                    <h1> <%= repo.name%></h1>
+                    <p> Forks: <%= repo.forks_count %> Stars:<%= repo.stars_count%></p>
+                </div>
+                <p> <%= repo.description%></p>
             </div>
-            <p> Description: <%= repo.description%></p>
-            <% if repo.commits.any? %>
-                <p><%= repo.commits.first.message%></p>
-                <p><%= repo.commits.first.author%></p>
-            <% end %>
-        </div>
+        </a>
     <% end %>
 <% end %>

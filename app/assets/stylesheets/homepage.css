@@ -5,8 +5,10 @@
 }
 
 .repositoryCard {
-  width: 40vw;
+  width: 50vw;
   padding: 10px;
   border: 2px solid rgb(242, 242, 242);
   border-radius: 10px;
+  margin-bottom: 20px;
+  cursor: pointer;
 }
