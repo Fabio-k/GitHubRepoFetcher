@@ -1,6 +1,0 @@
-<%= @repository.name%>
-<ul>
-    <% @repository.commits.each do |commit|%>
-        <li><%= commit.author%> -- <%= commit.message%></li>
-    <% end %>
-</ul>
