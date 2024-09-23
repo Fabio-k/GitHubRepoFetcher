@@ -7,16 +7,17 @@ Esta API foi criada como parte de um desafio feito pelo youtuber Bolt [link do v
 - Ruby on Rails
 - GitHub API
 
-# Dependecias
+# Dependências
 
 Ruby v3.3.4
 
 ## Como instalar o projeto
 
-depois de clonar o projeto use o comamdo abaixo
+depois de clonar o projeto use os comandos abaixo
 
 ```Bash
-    bin/setup
+gem install rails
+bin/setup
 ```
 
 ## Como Rodar o projeto
@@ -24,21 +25,21 @@ depois de clonar o projeto use o comamdo abaixo
 para rodar o projeto na porta 3000
 
 ```Bash
-    bin/rails server
+bin/rails server
 ```
 
 # Uso
 
-obtem todos os repositórios do usuário
+obtém todos os repositórios do usuário
 
 ```Bash
-    GET /repos/:username  # sem paginação
-    GET /repos/:username?page=2  # com paginação
+GET /repos/:username  # sem paginação
+GET /repos/:username?page=2  # com paginação
 ```
 
-ogtem dados específicos de um repositório do usuário
+obtém dados específicos de um repositório do usuário
 
 ```Bash
-    GET /repo/:username/:repository_name #sem paginação
-    GET /repo/:username/:repository_name?page=2 #com paginação
+GET /repo/:username/:repository_name #sem paginação
+GET /repo/:username/:repository_name?page=2 #com paginação
 ```
