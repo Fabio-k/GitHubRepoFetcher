@@ -4,11 +4,13 @@ class GithubApi
   def self.get_all_repositories(name, page)
     Rails.cache.fetch("github_repos_#{name}",expires_in: 30.minutes) do
       res = fetch_repository_data("https://api.github.com/users/#{name}/repos?page=#{page}")
+      return handle_api_error(res.body) unless res.is_a?(Net::HTTPSuccess)
+
       last_page = get_last_page(res)
       repositories = process_repository_data(res)
-      if repositories.is_a?(Array)
-        return {user: name, current_page: page, last_page: last_page,  repositories: repositories}
-      end
+      
+      {user: name, current_page: page, last_page: last_page,  repositories: repositories}
+    
     end
   rescue StandardError => e
     Rails.logger.error("Failed to fetch repositories: #{e.message}")
@@ -17,19 +19,18 @@ class GithubApi
 
   def self.get_repository(user, name, page)
     res = fetch_repository_data("https://api.github.com/repos/#{user}/#{name}")
-    if res.is_a?(Net::HTTPSuccess)
-      repository = JSON.parse(res.body)
-      commits_response = fetch_commits( repository['commits_url'].gsub('{/sha}', ''), page)
-      repo = format_data_to_repository(repository)
-      repo.commits = commits_response[:commits]
+    return handle_api_error(res.body) unless res.is_a?(Net::HTTPSuccess)
 
-      {repository: repo, current_page: page, last_page: commits_response[:last_page]}
-    else
-      handle_api_error(res.body)
-    end
+    repository = JSON.parse(res.body)
+    commits_response = fetch_commits( repository['commits_url'].gsub('{/sha}', ''), page)
+    repo = format_data_to_repository(repository)
+    repo.commits = commits_response[:commits]
+
+    {repository: repo, current_page: page, last_page: commits_response[:last_page]}
   end
 
   private 
+
   def self.fetch_repository_data(repo_url)
     url = URI(repo_url)
     res = Net::HTTP.get_response(url)
@@ -37,14 +38,15 @@ class GithubApi
     res
   end
 
+  def self.handle_api_error(response)
+    error_message = JSON.parse(response)
+    {error: error_message['message']}
+  end
+  
   def self.process_repository_data(response)
-    if response.is_a?(Net::HTTPSuccess)
-      repositories = JSON.parse(response.body)
-      repositories.map do |repo|
-        format_data_to_repository(repo)
-      end
-    else
-      handle_api_error(response.body)
+    repositories = JSON.parse(response.body)
+    repositories.map do |repo|
+      format_data_to_repository(repo)
     end
   end
 
@@ -79,7 +81,7 @@ class GithubApi
     {commits: commits, last_page: last_commit_page}
 
   rescue StandardError => e
-    Rails.logger.error("Failed to fetch repositories: #{e.message}")  
+    Rails.logger.error("Failed to fetch Commits: #{e.message}")  
     []
   end
 
@@ -90,9 +92,6 @@ class GithubApi
     1
   end
 
-  def self.handle_api_error(response)
-    error_message = JSON.parse(response)
-    {error: error_message['message']}
-  end
+  
 
 end
