@@ -1,24 +1,44 @@
-# README
+# GithubRepoFetcher
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Esta API foi criada como parte de um desafio feito pelo youtuber Bolt [link do video](https://www.youtube.com/watch?v=GjA4Qmbiiwc) e tem como objetivo fornecer dados dos repositórios de usuários do GitHub. Ela utiliza a API pública do GitHub para buscar informações sobre repositórios de um usuário.
 
-Things you may want to cover:
+## Tecnologias Utilizadas
 
-* Ruby version
+- Ruby on Rails
+- GitHub API
 
-* System dependencies
+# Dependecias
 
-* Configuration
+Ruby v3.3.4
 
-* Database creation
+## Como instalar o projeto
 
-* Database initialization
+depois de clonar o projeto use o comamdo abaixo
 
-* How to run the test suite
+```Bash
+    bin/setup
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+## Como Rodar o projeto
 
-* Deployment instructions
+para rodar o projeto na porta 3000
 
-* ...
+```Bash
+    bin/rails server
+```
+
+# Uso
+
+obtem todos os repositórios do usuário
+
+```Bash
+    GET /repos/:username  # sem paginação
+    GET /repos/:username?page=2  # com paginação
+```
+
+ogtem dados específicos de um repositório do usuário
+
+```Bash
+    GET /repo/:username/:repository_name #sem paginação
+    GET /repo/:username/:repository_name?page=2 #com paginação
+```
