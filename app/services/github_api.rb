@@ -76,7 +76,7 @@ class GithubApi
           message: commit['commit']['message'],
           author: commit['commit']['author']['name']
         )
-    end
+      end
 
     {commits: commits, last_page: last_commit_page}
 
@@ -89,7 +89,7 @@ class GithubApi
     if response['link']
       return response['link'].split(",")[1].split("?")[1].gsub(/\D/, "").to_i
     end
-    1
+    ""
   end
 
   
